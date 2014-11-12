@@ -3,8 +3,8 @@ library(shiny)
 library(ggplot2)
 library(PKPDmisc)
 
-shinyUI(fluidPage(
-  titlePanel("Uploading Files"),
+shinyUI(navbarPage("Navbar",
+  tabPanel("Upload Dataset",
   sidebarLayout(
     sidebarPanel(
       fileInput('file1', 'Choose CSV File',
@@ -30,3 +30,5 @@ shinyUI(fluidPage(
     )
   )
 ))
+)
+
