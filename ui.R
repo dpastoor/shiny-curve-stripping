@@ -3,22 +3,30 @@ library(shiny)
 library(ggplot2)
 library(PKPDmisc)
 
-shinyUI(pageWithSidebar(
-  
-  # Application title
-  headerPanel("Old Faithful Geyser Data"),
-  
-  # Sidebar with a slider input for number of bins
-  sidebarPanel(
-    sliderInput("Terminal Observations",
-                "Number of Terminal Observations:",
-                min = 1,
-                max = 50,
-                value = 30)
-  ),
-  
-  # Show a plot of the generated distribution
-  mainPanel(
-    plotOutput("distPlot")
+shinyUI(fluidPage(
+  titlePanel("Uploading Files"),
+  sidebarLayout(
+    sidebarPanel(
+      fileInput('file1', 'Choose CSV File',
+                accept=c('text/csv', 
+                         'text/comma-separated-values,text/plain', 
+                         '.csv')),
+      tags$hr(),
+      checkboxInput('has_header', 'Header', TRUE),
+      checkboxInput('has_units', 'Has Units', TRUE),
+      radioButtons('sep', 'Separator',
+                   c(Comma=',',
+                     Semicolon=';',
+                     Tab='\t'),
+                   ','),
+      radioButtons('quote', 'Quote',
+                   c(None='',
+                     'Double Quote'='"',
+                     'Single Quote'="'"),
+                   '"')
+    ),
+    mainPanel(
+      tableOutput('contents')
+    )
   )
 ))
