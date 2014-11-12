@@ -56,8 +56,8 @@ shinyServer(function(input, output, session) {
     #not positive if observed needed but based on googling around and it works
     # http://stackoverflow.com/questions/20073948/observe-updateselectinput-based-on-first-selection
     if(!is.null(dataset)) {
-      updateSelectInput(session, 'x', 'X', names(dataset()), "TIME" )
-      updateSelectInput(session, 'y', 'Y', names(dataset()), "COBS")
+      updateSelectInput(session, 'x', 'X (eg. time)', names(dataset()), "TIME" )
+      updateSelectInput(session, 'y', 'Y (eg. COBS or DV)', names(dataset()), "DV")
       updateSelectInput(session, 'dose', 'DOSE', names(dataset()), "DOSE")
      }
   })

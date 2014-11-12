@@ -4,13 +4,15 @@ library(ggplot2)
 library(PKPDmisc)
 shinyUI(navbarPage("Navbar",
   tabPanel("Upload Dataset",
-    sidebarLayout(
-      sidebarPanel(
+    fluidPage(
+      fluidRow(
+        column(4,
+        h4("1. Upload CSV file"),
         fileInput('file1', 'Choose CSV File',
                   accept=c('text/csv', 
                            'text/comma-separated-values,text/plain', 
                            '.csv')),
-        tags$hr(),
+        h6("optional csv customizations"),
         checkboxInput('has_header', 'Header', TRUE),
         checkboxInput('has_units', 'Has Units', FALSE),
         radioButtons('sep', 'Separator',
@@ -23,13 +25,19 @@ shinyUI(navbarPage("Navbar",
                        'Double Quote'='"',
                        'Single Quote'="'"),
                      '"'),
-        selectInput('x', 'X', NULL, "TIME" ),
-        selectInput('y', 'Y', NULL, "COBS"),
+        tags$hr()),
+        column(4,
+        h4("Select data columns"),
+        selectInput('x', 'X (eg. time)', NULL, "TIME" ),
+        selectInput('y', 'Y (eg. COBS or DV)', NULL, "DV"),
         selectInput('dose', 'DOSE', NULL, "DOSE")
       ),
-      mainPanel(
-        tableOutput('contents')
-      )
+      column(4, 
+             tableOutput('contents')
+             
+      ))
+
+      
     )
   ),
   tabPanel("Curve Stripping",
