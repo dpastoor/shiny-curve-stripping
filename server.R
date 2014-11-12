@@ -92,7 +92,7 @@ shinyServer(function(input, output, session) {
     if (input$log_y)
       p <- p + scale_y_log10()
     
-    p <- p + geom_smooth(data = terminal_data, method='lm', formula = y~x, se=F)  
+    p <- p + geom_smooth(data = terminal_data, method='lm', formula = y~x, se=F, size = 2)  
     print(p + base_theme_obs())
    
   })

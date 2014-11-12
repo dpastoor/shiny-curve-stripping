@@ -22,7 +22,10 @@ shinyUI(navbarPage("Navbar",
                      c(None='',
                        'Double Quote'='"',
                        'Single Quote'="'"),
-                     '"')
+                     '"'),
+        selectInput('x', 'X', NULL, "TIME" ),
+        selectInput('y', 'Y', NULL, "COBS"),
+        selectInput('dose', 'DOSE', NULL, "DOSE")
       ),
       mainPanel(
         tableOutput('contents')
@@ -41,7 +44,7 @@ shinyUI(navbarPage("Navbar",
                         checkboxInput('log_y', 'log Y scale', value = TRUE),
                         sliderInput('point_size', 'Point Size', 
                                     min=0.5, max=5,
-                                    value=2, 
+                                    value=3, 
                                     step=0.2),
                         sliderInput('line_size', 'Line Size', 
                                     min=0.5, max=5,
@@ -51,13 +54,9 @@ shinyUI(navbarPage("Navbar",
                                     min=3, max=20,
                                     value=5, 
                                     step=1)
-                 ),
-                 column(4, offset = 1,
-                        selectInput('x', 'X', NULL, "TIME" ),
-                        selectInput('y', 'Y', NULL, "COBS"),
-                        selectInput('dose', 'DOSE', NULL, "DOSE")
                  ), 
-                 column(5, 
+                 column(5,
+                        h4("Recommended Initial Estimates"),
                         tableOutput("initial_estimates")
                         )
                  
@@ -67,4 +66,5 @@ shinyUI(navbarPage("Navbar",
 )
 )
 )
+
 
