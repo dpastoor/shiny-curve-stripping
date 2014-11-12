@@ -12,7 +12,7 @@ shinyUI(navbarPage("Navbar",
                            '.csv')),
         tags$hr(),
         checkboxInput('has_header', 'Header', TRUE),
-        checkboxInput('has_units', 'Has Units', TRUE),
+        checkboxInput('has_units', 'Has Units', FALSE),
         radioButtons('sep', 'Separator',
                      c(Comma=',',
                        Semicolon=';',
@@ -54,8 +54,13 @@ shinyUI(navbarPage("Navbar",
                  ),
                  column(4, offset = 1,
                         selectInput('x', 'X', NULL, "TIME" ),
-                        selectInput('y', 'Y', NULL, "COBS")
-                 )
+                        selectInput('y', 'Y', NULL, "COBS"),
+                        selectInput('dose', 'DOSE', NULL, "DOSE")
+                 ), 
+                 column(5, 
+                        tableOutput("initial_estimates")
+                        )
+                 
                )
              )
           

@@ -58,8 +58,11 @@ shinyServer(function(input, output, session) {
     if(!is.null(dataset)) {
       updateSelectInput(session, 'x', 'X', names(dataset()), "TIME" )
       updateSelectInput(session, 'y', 'Y', names(dataset()), "COBS")
+      updateSelectInput(session, 'dose', 'DOSE', names(dataset()), "DOSE")
+     }
   })
 
+  
 
   
   output$plot <- renderPlot({
@@ -92,6 +95,12 @@ shinyServer(function(input, output, session) {
     p <- p + geom_smooth(data = terminal_data, method='lm', formula = y~x, se=F)  
     print(p + base_theme_obs())
    
+  })
+  output$initial_estimates <- renderTable({
+    if(is.null(dataset)) return(NULL)
+    data <- dataset()
+    data <- data[data[[input$y]] > 0,] # TODO: change to give user option to filter or change to small value
+    strip_curves(data[[input$x]], data[[input$y]], data[[input$dose]],number_terminal_points = input$num_term_pts)
   })
   
 })
