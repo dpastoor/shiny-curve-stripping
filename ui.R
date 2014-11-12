@@ -29,16 +29,16 @@ shinyUI(navbarPage("Navbar",
       )
     )
   ),
-  tabPanel("Initial Estimates",
+  tabPanel("Curve Stripping",
            fluidPage(
-             titlePanel("Test"),
+             titlePanel("Curve Stripping"),
                plotOutput("plot"),
                fluidRow(
                  column(3,
                         h4("PKPD Explorer"),
                         checkboxInput('point', 'Point', value = TRUE),
                         checkboxInput('line', 'Line'),
-                        checkboxInput('log_y', 'log Y scale', value = FALSE),
+                        checkboxInput('log_y', 'log Y scale', value = TRUE),
                         sliderInput('point_size', 'Point Size', 
                                     min=0.5, max=5,
                                     value=2, 
@@ -46,11 +46,15 @@ shinyUI(navbarPage("Navbar",
                         sliderInput('line_size', 'Line Size', 
                                     min=0.5, max=5,
                                     value=1, 
-                                    step=0.2)
+                                    step=0.2),
+                        sliderInput('num_term_pts', 'Number of Terminal Points', 
+                                    min=3, max=20,
+                                    value=5, 
+                                    step=1)
                  ),
                  column(4, offset = 1,
-                        selectInput('x', 'X', names(ui_data), "TIME" ),
-                        selectInput('y', 'Y', names(ui_data), "COBS")
+                        selectInput('x', 'X', NULL, "TIME" ),
+                        selectInput('y', 'Y', NULL, "COBS")
                  )
                )
              )

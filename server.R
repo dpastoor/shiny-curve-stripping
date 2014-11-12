@@ -4,10 +4,10 @@
 # 
 # http://www.rstudio.com/shiny/
 #
-ui_data <- Theoph
 library(shiny)
 library(ggplot2)
 library(PKPDmisc)
+library(dplyr)
 shinyServer(function(input, output, session) {
 
   
@@ -65,7 +65,9 @@ shinyServer(function(input, output, session) {
   
   output$plot <- renderPlot({
     if(is.null(dataset)) return(NULL)
-    p <- ggplot(dataset(), aes_string(x=input$x, y=input$y))
+    data <- dataset()
+    data <- data[data[[input$y]] > 0,]
+    p <- ggplot(data, aes_string(x=input$x, y=input$y))
     
     if (input$point)
       p <- p + geom_point(size = input$point_size)
@@ -75,7 +77,7 @@ shinyServer(function(input, output, session) {
     if (input$log_y)
       p <- p + scale_y_log10()
     
-      
+    p <- p + geom_smooth(method='lm', formula = y~x, se=F)  
     print(p + base_theme_obs())
    
   })
