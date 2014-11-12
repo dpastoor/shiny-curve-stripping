@@ -58,7 +58,6 @@ shinyServer(function(input, output, session) {
     if(!is.null(dataset)) {
       updateSelectInput(session, 'x', 'X', names(dataset()), "TIME" )
       updateSelectInput(session, 'y', 'Y', names(dataset()), "COBS")
-    }
   })
 
 
@@ -66,7 +65,20 @@ shinyServer(function(input, output, session) {
   output$plot <- renderPlot({
     if(is.null(dataset)) return(NULL)
     data <- dataset()
-    data <- data[data[[input$y]] > 0,]
+    data <- data[data[[input$y]] > 0,] # TODO: change to give user option to filter or change to small value
+    
+    ### for terminal slope plotting ---------------
+    time <- data[[input$x]]
+    num_time_points <- length(time)
+    #check to make sure partial time legit option
+    ###need to add warning
+    start_terminal_points <- num_time_points - input$num_term_pts + 1
+    
+    
+    terminal_data<-data[start_terminal_points:num_time_points,]
+
+    
+    ### plot ----------
     p <- ggplot(data, aes_string(x=input$x, y=input$y))
     
     if (input$point)
@@ -77,7 +89,7 @@ shinyServer(function(input, output, session) {
     if (input$log_y)
       p <- p + scale_y_log10()
     
-    p <- p + geom_smooth(method='lm', formula = y~x, se=F)  
+    p <- p + geom_smooth(data = terminal_data, method='lm', formula = y~x, se=F)  
     print(p + base_theme_obs())
    
   })
