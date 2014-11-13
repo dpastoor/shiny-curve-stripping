@@ -13,6 +13,7 @@ shinyUI(navbarPage("Navbar",
                            'text/comma-separated-values,text/plain', 
                            '.csv')),
         h6("optional csv customizations"),
+        p("Use these if the preview after uploading is showing that your data is not read in correctly"),
         checkboxInput('has_header', 'Header', TRUE),
         checkboxInput('has_units', 'Has Units', FALSE),
         radioButtons('sep', 'Separator',
@@ -27,12 +28,15 @@ shinyUI(navbarPage("Navbar",
                      '"'),
         tags$hr()),
         column(4,
-        h4("Select data columns"),
+        h4("2. Select data columns"),
         selectInput('x', 'X (eg. time)', NULL, "TIME" ),
         selectInput('y', 'Y (eg. COBS or DV)', NULL, "DV"),
-        selectInput('dose', 'DOSE', NULL, "DOSE")
+        selectInput('dose', 'DOSE', NULL, "DOSE"),
+        h5("Be sure all dropdowns are associated with a column in the dataset 
+           after uploading")
       ),
       column(4, 
+             h4("3. Preview Uploaded Data"),
              tableOutput('contents')
              
       ))
@@ -45,8 +49,13 @@ shinyUI(navbarPage("Navbar",
              titlePanel("Curve Stripping"),
                plotOutput("plot"),
                fluidRow(
-                 column(3,
-                        h4("PKPD Explorer"),
+                 column(4,
+                        h4("Set # terminal points"),
+                        sliderInput('num_term_pts', 'Number of Terminal Points', 
+                                    min=3, max=20,
+                                    value=5, 
+                                    step=1),
+                        h5("Set Plot Attributes"),
                         checkboxInput('point', 'Point', value = TRUE),
                         checkboxInput('line', 'Line'),
                         checkboxInput('log_y', 'log Y scale', value = TRUE),
@@ -57,14 +66,11 @@ shinyUI(navbarPage("Navbar",
                         sliderInput('line_size', 'Line Size', 
                                     min=0.5, max=5,
                                     value=1, 
-                                    step=0.2),
-                        sliderInput('num_term_pts', 'Number of Terminal Points', 
-                                    min=3, max=20,
-                                    value=5, 
-                                    step=1)
+                                    step=0.2)
+
                  ), 
                  column(5,
-                        h4("Recommended Initial Estimates"),
+                        h3("Recommended Initial Estimates"),
                         tableOutput("initial_estimates")
                         )
                  
